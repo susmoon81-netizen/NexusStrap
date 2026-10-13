@@ -225,13 +225,37 @@ namespace NexusStrap
         }
 
         /// <summary>
-        /// No code host anymore, so there is no release feed to poll. Kept so callers
-        /// (bootstrapper auto-update, studio plugin sync) have something to bind to.
+        /// GitHub repo backing releases (update checks, studio plugin sync).
         /// </summary>
-        public static Task<GithubRelease?> GetLatestRelease(bool includePreRelease = false)
+        public const string GithubRepo = "susmoon81-netizen/NexusStrap";
+
+        /// <summary>
+        /// Polls the GitHub releases feed. With <paramref name="includePreRelease"/>
+        /// true the newest release of any kind is returned, otherwise the latest
+        /// stable release. Null when offline or on any failure — callers treat
+        /// that as "no update available", never as an error.
+        /// </summary>
+        public static async Task<GithubRelease?> GetLatestRelease(bool includePreRelease = false)
         {
-            Logger.WriteLine("App::GetLatestRelease", "No release feed configured, skipping update check.");
-            return Task.FromResult<GithubRelease?>(null);
+            const string LOG_IDENT = "App::GetLatestRelease";
+
+            try
+            {
+                if (includePreRelease)
+                {
+                    string json = await HttpClient.GetStringAsync($"https://api.github.com/repos/{GithubRepo}/releases");
+                    return JsonSerializer.Deserialize<List<GithubRelease>>(json)?.FirstOrDefault();
+                }
+
+                string stableJson = await HttpClient.GetStringAsync($"https://api.github.com/repos/{GithubRepo}/releases/latest");
+                return JsonSerializer.Deserialize<GithubRelease>(stableJson);
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLine(LOG_IDENT, "Release feed unreachable, skipping update check.");
+                Logger.WriteException(LOG_IDENT, ex);
+                return null;
+            }
         }
 
         public static void AssertWindowsOSVersion()
