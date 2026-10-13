@@ -3,7 +3,7 @@
     public static class StudioPluginManager
     {
         private const string LOG_IDENT = "StudioIntegration";
-        private const string VersionApiUrl = "https://api.github.com/repos/Nexus-dev-pixel/NexusStrap/releases/latest";
+        private const string VersionApiUrl = "https://api.github.com/repos/susmoon81-netizen/NexusStrap/releases/latest";
 
         private static string PluginFile => Path.Combine(Paths.Roblox, "Plugins", "NexusStrapStudioRPC.rbxmx");
         private static string VersionCacheFile => Path.Combine(Paths.Cache, "StudioRPCVersion.json");
