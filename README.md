@@ -12,11 +12,13 @@
 
 <div align="center">
 
-[![downloads](https://img.shields.io/badge/downloads-386k-purple)](https://github.com/susmoon81-netizen/NexusStrap/releases)
-[![downloads-latest](https://img.shields.io/badge/downloads@latest-5.1k-violet)](https://github.com/susmoon81-netizen/NexusStrap/releases/latest)
-[![release](https://img.shields.io/badge/release-v1.0.2-blue)](https://github.com/susmoon81-netizen/NexusStrap/releases/tag/v1.0.2)
-[![discord](https://img.shields.io/badge/Discord-2.9k%20online-indigo)](https://discord.gg/your-invite-link)
-[![stars](https://img.shields.io/badge/Stars-82-grey)](https://github.com/susmoon81-netizen/NexusStrap/stargazers)
+[![downloads](https://img.shields.io/github/downloads/susmoon81-netizen/NexusStrap/total?style=for-the-badge&logo=github&color=5e3a94&label=TOTAL%20DOWNLOADS)](https://github.com/susmoon81-netizen/NexusStrap/releases)
+[![downloads-latest](https://img.shields.io/github/downloads/susmoon81-netizen/NexusStrap/latest/total?style=for-the-badge&logo=github&color=a855f7&label=LATEST%20RELEASE)](https://github.com/susmoon81-netizen/NexusStrap/releases/latest)
+[![release](https://img.shields.io/github/v/release/susmoon81-netizen/NexusStrap?style=for-the-badge&logo=github&color=2563eb&label=VERSION)](https://github.com/susmoon81-netizen/NexusStrap/releases)
+[![stars](https://img.shields.io/github/stars/susmoon81-netizen/NexusStrap?style=for-the-badge&logo=github&color=6b7280&label=STARS)](https://github.com/susmoon81-netizen/NexusStrap/stargazers)
+
+<!-- Note: Discord online count requires a bot or manual update as GitHub doesn't host Discord data -->
+[![discord](https://img.shields.io/discord/YOUR_DISCORD_SERVER_ID?style=for-the-badge&logo=discord&color=4f545c&label=DISCORD)](https://discord.gg/your-invite-link)
 
 </div>
 
