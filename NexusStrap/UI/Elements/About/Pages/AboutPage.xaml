@@ -59,7 +59,8 @@
         <WrapPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,16">
             <ui:Button Margin="0,0,8,8" Appearance="Primary" Icon="Chat24" Content="Discord" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://discord.gg/R47Pwf7s9q" />
             <ui:Button Margin="0,0,8,8" Appearance="Primary" Icon="Library24" Content="Wiki" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://nexusstrap.pages.dev/wiki.html" />
-            <ui:Button Margin="0,0,8,8" Appearance="Primary" Icon="Globe24" Content="Website" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://nexusstrap.pages.dev" />
+            <ui:Button Margin="0,0,8,8" Appearance="Primary" Icon="Globe24" Content="Website" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://nexusstrap.pages.dev/" />
+            <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="Code24" Content="GitHub" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/susmoon81-netizen/NexusStrap" />
         </WrapPanel>
 
         <!-- Credits Section -->
