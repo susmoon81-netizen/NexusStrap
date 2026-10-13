@@ -113,7 +113,17 @@ namespace NexusStrap.UI.Elements.Overlay
                 if (Visibility != Visibility.Visible)
                     Visibility = Visibility.Visible;
 
-                FpsText.Text = _fpsMonitor.IsAvailable ? $"FPS {fps}" : "FPS --";
+                // No admin means no real frame data: hide the line instead of
+                // showing a dead placeholder. CPU and RAM always work.
+                if (_fpsMonitor.IsAvailable)
+                {
+                    FpsText.Visibility = Visibility.Visible;
+                    FpsText.Text = $"FPS {fps}";
+                }
+                else
+                {
+                    FpsText.Visibility = Visibility.Collapsed;
+                }
 
                 // CPU: process share across all cores, as a percentage.
                 var elapsed = _sampleStopwatch.Elapsed;
