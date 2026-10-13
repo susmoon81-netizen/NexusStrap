@@ -11,7 +11,7 @@ Corporation. Use at your own risk.
 
 1. Install the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (x64).
 2. Download `NexusStrap.exe` from the
-   [Releases page](https://github.com/Nexus-dev-pixel/NexusStrap/releases).
+   [Releases page](https://github.com/susmoon81-netizen/NexusStrap/releases).
 3. Run it.
 
 ## What it does
@@ -32,7 +32,7 @@ Corporation. Use at your own risk.
 Requires the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0).
 
 ```powershell
-git clone https://github.com/Nexus-dev-pixel/NexusStrap.git
+git clone https://github.com/susmoon81-netizen/NexusStrap.git
 cd NexusStrap
 dotnet build NexusStrap.slnx -c Release
 ```
