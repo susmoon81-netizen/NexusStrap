@@ -30,7 +30,7 @@ namespace NexusStrap
 
         public static Version GetVersionFromString(string version)
         {
-            if (version.StartsWith('v'))
+            if (version.StartsWith("v", StringComparison.OrdinalIgnoreCase))
                 version = version[1..];
 
             int idx = version.IndexOf('+'); // commit info
