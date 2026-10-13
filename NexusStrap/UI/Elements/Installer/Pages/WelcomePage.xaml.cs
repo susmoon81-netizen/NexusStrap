@@ -1,0 +1,31 @@
+﻿using System.Windows;
+using NexusStrap.UI.ViewModels.Installer;
+
+namespace NexusStrap.UI.Elements.Installer.Pages
+{
+    /// <summary>
+    /// Interaction logic for WelcomePage.xaml
+    /// </summary>
+    public partial class WelcomePage
+    {
+        private readonly WelcomeViewModel _viewModel = new();
+
+        public WelcomePage()
+        {
+            DataContext = _viewModel;
+            InitializeComponent();
+        }
+
+        private void UiPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (Window.GetWindow(this) is MainWindow window)
+                window.SetNextButtonText(Strings.Common_Navigation_Next);
+        }
+
+        private void Continue_Click(object sender, RoutedEventArgs e)
+        {
+            if (Window.GetWindow(this) is MainWindow window)
+                window.NextPage();
+        }
+    }
+}

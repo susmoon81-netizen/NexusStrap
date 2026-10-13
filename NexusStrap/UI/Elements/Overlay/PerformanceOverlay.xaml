@@ -1,0 +1,36 @@
+<Window x:Class="NexusStrap.UI.Elements.Overlay.PerformanceOverlay"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="NexusStrap FPS"
+    Width="190"
+    Height="100"
+    WindowStyle="None"
+    AllowsTransparency="True"
+    Background="Transparent"
+    Topmost="True"
+    ShowInTaskbar="False"
+    ResizeMode="NoResize"
+    WindowStartupLocation="Manual">
+
+    <!-- No background panel on purpose: green text only, floating over the game. -->
+    <StackPanel Margin="12,10,14,0" HorizontalAlignment="Right">
+        <StackPanel.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Consolas" />
+                <Setter Property="FontSize" Value="19" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="Foreground" Value="#00FF00" />
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="Black" BlurRadius="3" ShadowDepth="1" Opacity="0.9" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </StackPanel.Resources>
+
+        <TextBlock x:Name="FpsText" Text="FPS --" />
+        <TextBlock x:Name="CpuText" Text="CPU --" Margin="0,2,0,0" />
+        <TextBlock x:Name="RamText" Text="RAM --" Margin="0,2,0,0" />
+    </StackPanel>
+</Window>

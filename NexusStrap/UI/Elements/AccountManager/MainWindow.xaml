@@ -1,0 +1,59 @@
+<base:WpfUiWindow x:Class="NexusStrap.UI.Elements.AccountManagers.MainWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pages="clr-namespace:NexusStrap.UI.Elements.AccountManagers.Pages"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:base="clr-namespace:NexusStrap.UI.Elements.Base"
+             xmlns:resources="clr-namespace:NexusStrap.Resources"
+             mc:Ignorable="d"
+             Title="Nexus Strapper"
+             Background="{ui:ThemeResource ApplicationBackgroundBrush}"
+             Width="1000"
+             Height="675"
+             ExtendsContentIntoTitleBar="True"
+             WindowBackdropType="Mica"
+             WindowStartupLocation="CenterScreen"
+             WindowStyle="SingleBorderWindow">
+    <Grid Background="{DynamicResource ApplicationBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ui:TitleBar Padding="8" x:Name="RootTitleBar" Grid.Row="0" ForceShutdown="False" MinimizeToTray="True" UseSnapLayout="True" Title="Nexus Strapper" Icon="pack://application:,,,/NX.ico" />
+
+        <Grid x:Name="RootGrid" Grid.Row="1" Margin="12,8,12,0" Visibility="Visible">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Frame x:Name="RootFrame" Grid.Column="0" />
+
+            <ui:NavigationCompact x:Name="RootNavigation" Grid.Column="1" Margin="4,0,12,0" MaxWidth="195" Frame="{Binding ElementName=RootFrame}" SelectedPageIndex="0" FooterAlwaysVisible="True" Background="Transparent" IsExpanded="True">
+                <ui:NavigationCompact.Items>
+                    <ui:NavigationItem Content="Accounts" PageType="{x:Type pages:AccountsPage}" Icon="PersonAccounts24" IconSize="20" Tag="accounts" FontWeight="Medium" />
+                    <ui:NavigationItem Content="Friends" PageType="{x:Type pages:FriendsPage}" Icon="People24" IconSize="20" Tag="friends" FontWeight="Medium" x:Name="friends"/>
+                    <ui:NavigationItem Content="Profile" PageType="{x:Type pages:ProfilePage}" Icon="Person24" IconSize="20" Tag="profile" FontWeight="Medium" x:Name="profile"/>
+                    <ui:NavigationItem Content="Game Browser" PageType="{x:Type pages:GamesPage}" Icon="Games24" IconSize="20" Tag="games" FontWeight="Medium" x:Name="games"/>
+                </ui:NavigationCompact.Items>
+            </ui:NavigationCompact>
+        </Grid>
+
+        <Grid x:Name="LoadingOverlay" Grid.Row="1" Grid.RowSpan="2" Visibility="Collapsed" Background="#A0000000" Panel.ZIndex="9999" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border Background="{DynamicResource NormalDarkAndLightBackground}" CornerRadius="16" Padding="32" Effect="{DynamicResource ControlShadow}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+
+                        <TextBlock x:Name="LoadingOverlayText" Text="Loading..." FontSize="22" FontWeight="SemiBold" Margin="0,0,0,20" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                        <ui:ProgressRing IsIndeterminate="True" Width="60" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,0" />
+
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</base:WpfUiWindow>
