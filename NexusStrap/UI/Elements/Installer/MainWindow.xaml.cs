@@ -1,0 +1,166 @@
+﻿using System.Windows.Controls;
+using Wpf.Ui.Controls.Interfaces;
+using Wpf.Ui.Mvvm.Contracts;
+using System.ComponentModel;
+using System.Windows;
+
+using NexusStrap.UI.ViewModels.Installer;
+using NexusStrap.UI.Elements.Installer.Pages;
+using NexusStrap.UI.Elements.Base;
+using System.Windows.Media.Animation;
+using System.Reflection.Metadata.Ecma335;
+using NexusStrap.Resources;
+
+namespace NexusStrap.UI.Elements.Installer
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    /// 
+    /// The logic behind this wizard-like interface is full of gross hacks, but there's no easy way to do this and I've tried to 
+    /// make it as nice and MVVM-"""conformant""" as can possibly be ¯\_(ツ)_/¯
+    /// 
+    /// Page ViewModels can request changing of navigation button states through the following call flow:
+    /// - Page ViewModel holds event for requesting button state change
+    /// - Page CodeBehind subscribes to event on page creation
+    /// - Page ViewModel invokes event when ready
+    /// - Page CodeBehind receives it, gets MainWindow, and directly calls MainWindow.SetButtonEnabled()
+    /// - MainWindow.SetButtonEnabled() directly calls MainWindowViewModel.SetButtonEnabled() which does the thing a voila
+    /// 
+    /// Page ViewModels can also be notified of when the next page button has been pressed and stop progression if needed through a callback
+    /// - MainWindow has a single-set Func<bool> property named NextPageCallback which is reset on every page load
+    /// - This callback is called when the next page button is pressed
+    /// - Page CodeBehind gets MainWindow and sets the callback to its own local function on page load
+    /// - CodeBehind's local function then directly calls its ViewModel to do whatever it needs to do
+
+    public partial class MainWindow : WpfUiWindow, INavigationWindow
+    {
+        internal readonly MainWindowViewModel _viewModel = new();
+
+        private Type _currentPage = typeof(WelcomePage);
+
+        private List<Type> _pages = new() { typeof(WelcomePage), typeof(AccountSetupPage), typeof(InstallPage), typeof(CompletionPage) };
+
+        private DateTimeOffset _lastNavigation = DateTimeOffset.Now;
+
+        public Func<bool>? NextPageCallback;
+
+        public NextAction CloseAction = NextAction.Terminate;
+
+        public bool Finished => _currentPage == _pages.Last();
+
+        public MainWindow()
+        {
+            _viewModel.CloseWindowRequest += (_, _) => CloseWindow();
+
+            App.RichPresence?.SetDialog("Installer");
+
+            _viewModel.PageRequest += (_, type) =>
+            {
+                // debounce
+                if (DateTimeOffset.Now.Subtract(_lastNavigation).TotalMilliseconds < 500)
+                    return;
+
+                if (type == "next")
+                    NextPage();
+                else if (type == "back")
+                    BackPage();
+
+                _lastNavigation = DateTimeOffset.Now;
+            };
+
+            DataContext = _viewModel;
+            InitializeComponent();
+
+            App.Logger.WriteLine("MainWindow", "Initializing installer window");
+
+            Closing += new CancelEventHandler(MainWindow_Closing);
+        }
+
+        public void NextPage()
+        {
+            if (NextPageCallback is not null && !NextPageCallback())
+                return;
+
+            if (_currentPage == _pages.Last())
+                return;
+
+            var page = _pages[_pages.IndexOf(_currentPage) + 1];
+
+            Navigate(page);
+        }
+
+        void BackPage()
+        {
+            if (_currentPage == _pages.First())
+                return;
+
+            var page = _pages[_pages.IndexOf(_currentPage) - 1];
+
+            Navigate(page);
+        }
+
+        void MainWindow_Closing(object? sender, CancelEventArgs e)
+        {
+            if (Finished)
+                return;
+
+            var result = Frontend.ShowMessageBox(Strings.Installer_ShouldCancel, MessageBoxImage.Warning, MessageBoxButton.YesNo);
+
+            if (result != MessageBoxResult.Yes)
+                e.Cancel = true;
+        }
+
+        public void SetNextButtonText(string text) => _viewModel.SetNextButtonText(text);
+
+        public void SetButtonEnabled(string type, bool state) => _viewModel.SetButtonEnabled(type, state);
+        
+        #region INavigationWindow methods
+
+        public Frame GetFrame() => RootFrame;
+
+        public INavigation GetNavigation() => RootNavigation;
+
+        public bool Navigate(Type pageType)
+        {
+            _currentPage = pageType;
+            NextPageCallback = null;
+            UpdateStepIndicators();
+            return RootNavigation.Navigate(pageType);
+        }
+
+        private void UpdateStepIndicators()
+        {
+            int idx = _pages.IndexOf(_currentPage);
+
+            var accent = (System.Windows.Media.SolidColorBrush)FindResource("SystemAccentBrush");
+
+            Step1Circle.Background = idx >= 0 ? accent : (System.Windows.Media.Brush)FindResource("ControlFillColorDefaultBrush");
+            Step1Num.Foreground = System.Windows.Media.Brushes.White;
+            Step1Label.Foreground = (System.Windows.Media.Brush)FindResource("TextFillColorPrimaryBrush");
+            Connector1.Background = idx >= 1 ? accent : (System.Windows.Media.Brush)FindResource("ControlFillColorDefaultBrush");
+
+            Step2Circle.Background = idx >= 1 ? accent : (System.Windows.Media.Brush)FindResource("ControlFillColorDefaultBrush");
+            Step2Num.Foreground = idx >= 1 ? System.Windows.Media.Brushes.White : (System.Windows.Media.Brush)FindResource("TextFillColorSecondaryBrush");
+            Step2Label.Foreground = idx >= 1 ? (System.Windows.Media.Brush)FindResource("TextFillColorPrimaryBrush") : (System.Windows.Media.Brush)FindResource("TextFillColorSecondaryBrush");
+            Connector2.Background = idx >= 2 ? accent : (System.Windows.Media.Brush)FindResource("ControlFillColorDefaultBrush");
+
+            Step3Circle.Background = idx >= 2 ? accent : (System.Windows.Media.Brush)FindResource("ControlFillColorDefaultBrush");
+            Step3Num.Foreground = idx >= 2 ? System.Windows.Media.Brushes.White : (System.Windows.Media.Brush)FindResource("TextFillColorSecondaryBrush");
+            Step3Label.Foreground = idx >= 2 ? (System.Windows.Media.Brush)FindResource("TextFillColorPrimaryBrush") : (System.Windows.Media.Brush)FindResource("TextFillColorSecondaryBrush");
+            Connector3.Background = idx >= 3 ? accent : (System.Windows.Media.Brush)FindResource("ControlFillColorDefaultBrush");
+
+            Step4Circle.Background = idx >= 3 ? accent : (System.Windows.Media.Brush)FindResource("ControlFillColorDefaultBrush");
+            Step4Num.Foreground = idx >= 3 ? System.Windows.Media.Brushes.White : (System.Windows.Media.Brush)FindResource("TextFillColorSecondaryBrush");
+            Step4Label.Foreground = idx >= 3 ? (System.Windows.Media.Brush)FindResource("TextFillColorPrimaryBrush") : (System.Windows.Media.Brush)FindResource("TextFillColorSecondaryBrush");
+        }
+
+        public void SetPageService(IPageService pageService) => RootNavigation.PageService = pageService;
+
+        public void ShowWindow() => Show();
+
+        public void CloseWindow() => Close();
+
+        #endregion INavigationWindow methods
+    }
+}
