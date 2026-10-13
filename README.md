@@ -18,7 +18,7 @@
 [![stars](https://img.shields.io/github/stars/susmoon81-netizen/NexusStrap?style=for-the-badge&logo=github&color=6b7280&label=STARS)](https://github.com/susmoon81-netizen/NexusStrap/stargazers)
 
 <!-- Note: Discord online count requires a bot or manual update as GitHub doesn't host Discord data -->
-[![discord](https://img.shields.io/discord/YOUR_DISCORD_SERVER_ID?style=for-the-badge&logo=discord&color=4f545c&label=DISCORD)](https://discord.gg/R47Pwf7s9q)
+[![discord](https://img.shields.io/discord/1534049669418586232?style=for-the-badge&logo=discord&color=4f545c&label=DISCORD)](https://discord.gg/R47Pwf7s9q)
 
 </div>
 
