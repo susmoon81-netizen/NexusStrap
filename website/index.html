@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexusStrap — Your Roblox, Your Rules</title>
+  <meta name="description" content="NexusStrap is a fast, customizable open-source Roblox launcher for Windows. FastFlags, themes, performance tools, account manager and more." />
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="nav">
+    <a class="brand" href="#top">
+      <img src="assets/logo.png" alt="NexusStrap logo" />
+      <span>NexusStrap</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#install">Install</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://github.com/susmoon81-netizen/NexusStrap" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <img class="hero-logo" src="assets/logo.png" alt="NexusStrap logo" />
+    <h1 class="shine">NEXUSSTRAP</h1>
+    <div class="hero-bar"></div>
+    <p class="tagline">Your Roblox, your rules. A fast, customizable open-source launcher for Windows.</p>
+    <p class="version-pill" id="version-pill">v1.0.2</p>
+    <div class="hero-buttons">
+      <a class="btn btn-primary" id="download-exe" href="https://github.com/susmoon81-netizen/NexusStrap/releases/latest/download/NexusStrap.exe">Download NexusStrap</a>
+      <a class="btn btn-ghost" href="https://github.com/susmoon81-netizen/NexusStrap/archive/refs/heads/main.zip">Download Source</a>
+      <a class="btn btn-ghost" href="https://discord.gg/R47Pwf7s9q" target="_blank" rel="noopener">Join Discord</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="stat-value" id="stat-version">1.0.2</span><span class="stat-label">Latest version</span></div>
+      <div class="stat"><span class="stat-value" id="stat-online">—</span><span class="stat-label">Online now</span></div>
+      <div class="stat"><span class="stat-value">Win 10+</span><span class="stat-label">Platform</span></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="features">
+      <h2 class="reveal">Everything in one launcher</h2>
+      <p class="section-sub reveal">Installs and updates Roblox, then gets out of your way — until you want control.</p>
+      <div class="grid">
+        <div class="card reveal">
+          <h3>FastFlags</h3>
+          <p>Presets, templates, profiles, and a full flag editor with undo. Tune the client exactly how you like it.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Customization</h3>
+          <p>Themes, custom fonts, launcher backgrounds, app icons. Make the strap look like yours.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Performance</h3>
+          <p>One-click performance boost, frame-rate options, and process priority control for smoother gameplay.</p>
+        </div>
+        <div class="card reveal">
+          <h3>In-game overlay</h3>
+          <p>Optional FPS, CPU, and RAM readout pinned to the corner of your game. Only visible while playing.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Account manager</h3>
+          <p>Multiple accounts, friends with presence and one-click join, profile pages, and a game browser.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Regions</h3>
+          <p>Region-based server search with optional region pinning, so you play where you want.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Discord RPC</h3>
+          <p>Rich Presence for both playing and Studio, with automatic reconnect.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Mods</h3>
+          <p>Cursors, sounds, and client customization with live preview before you apply.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="install">
+      <h2 class="reveal">Install in a minute</h2>
+      <div class="steps">
+        <div class="step reveal"><span class="step-num">1</span><p>Install the <a href="https://dotnet.microsoft.com/download/dotnet/10.0" target="_blank" rel="noopener">.NET 10 Desktop Runtime</a> if Windows asks for it.</p></div>
+        <div class="step reveal"><span class="step-num">2</span><p>Download <strong>NexusStrap.exe</strong> from the <a href="https://github.com/susmoon81-netizen/NexusStrap/releases" target="_blank" rel="noopener">Releases page</a>.</p></div>
+        <div class="step reveal"><span class="step-num">3</span><p>Run it. It installs Roblox and opens settings on first launch.</p></div>
+      </div>
+      <p class="note reveal">Requires Windows 10 (1903+) or Windows 11, 64-bit. The download is small because the .NET runtime is not bundled.</p>
+    </section>
+
+    <section class="section" id="faq">
+      <h2 class="reveal">FAQ</h2>
+      <div class="faq reveal">
+        <h3>Is this affiliated with Roblox?</h3>
+        <p>No. Unofficial community project. Roblox is a trademark of Roblox Corporation.</p>
+      </div>
+      <div class="faq reveal">
+        <h3>My antivirus flagged it. Is it safe?</h3>
+        <p>Launchers like this get false-flagged because they download and manage game files. This site ships source code openly — read it, build it yourself, and only run copies from the official Releases page.</p>
+      </div>
+      <div class="faq reveal">
+        <h3>Does it need my password or cookie?</h3>
+        <p>No. It never asks for your Roblox password. Never share your .ROBLOSECURITY cookie with anyone.</p>
+      </div>
+      <div class="faq reveal">
+        <h3>Where do I get help?</h3>
+        <p>Join the <a href="https://discord.gg/R47Pwf7s9q" target="_blank" rel="noopener">Discord</a> or open an issue on <a href="https://github.com/susmoon81-netizen/NexusStrap" target="_blank" rel="noopener">GitHub</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Unofficial community project. Not affiliated with or endorsed by Roblox Corporation. Use at your own risk.</p>
+    <p>
+      <a href="https://github.com/susmoon81-netizen/NexusStrap" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://discord.gg/R47Pwf7s9q" target="_blank" rel="noopener">Discord</a> ·
+      <a href="https://github.com/susmoon81-netizen/NexusStrap/releases" target="_blank" rel="noopener">Releases</a>
+    </p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
