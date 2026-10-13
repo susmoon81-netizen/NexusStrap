@@ -185,6 +185,56 @@ namespace NexusStrap
             handle.Set();
         }
 
+        public static bool IsAdministrator()
+        {
+            try
+            {
+                using var identity = System.Security.Principal.WindowsIdentity.GetCurrent();
+                return new System.Security.Principal.WindowsPrincipal(identity)
+                    .IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Relaunches NexusStrap elevated (UAC prompt). Returns false when the
+        /// user declines or the relaunch fails, so callers can continue normally.
+        /// </summary>
+        public static bool RelaunchElevated(string args)
+        {
+            const string LOG_IDENT = "Utilities::RelaunchElevated";
+
+            string target = Paths.Application;
+
+            if (!File.Exists(target))
+            {
+                App.Logger.WriteLine(LOG_IDENT, $"Installed exe missing at '{target}', falling back to running exe");
+                target = Environment.ProcessPath ?? Paths.Process;
+            }
+
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = target,
+                    Arguments = args,
+                    WorkingDirectory = Path.GetDirectoryName(target) ?? Paths.Base,
+                    UseShellExecute = true,
+                    Verb = "runas"
+                });
+                return true;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Elevated relaunch declined or failed, continuing without elevation");
+                App.Logger.WriteException(LOG_IDENT, ex);
+                return false;
+            }
+        }
+
         /// <summary>
         /// Relaunches NexusStrap itself. Prefers the installed copy but falls back
         /// to the currently running exe (which always exists), so launching from

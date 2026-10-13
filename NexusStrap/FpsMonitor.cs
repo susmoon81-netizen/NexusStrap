@@ -78,8 +78,9 @@ namespace NexusStrap
             catch (Exception ex)
             {
                 // Expected for standard users: creating a real-time ETW session
-                // needs elevation. Never let this break the overlay.
-                App.Logger.WriteLine(LOG_START, $"ETW session unavailable ({ex.GetType().Name}), FPS will be hidden: {ex.Message}");
+                // needs elevation. The launcher offers an elevated relaunch on
+                // game start when the overlay is on — otherwise FPS stays hidden.
+                App.Logger.WriteLine(LOG_START, $"ETW session unavailable ({ex.GetType().Name}), FPS will be hidden (run as administrator to enable): {ex.Message}");
                 try { _session?.Dispose(); } catch { }
                 _session = null;
                 return false;

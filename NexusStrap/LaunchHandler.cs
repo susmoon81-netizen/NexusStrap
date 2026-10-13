@@ -247,6 +247,56 @@ namespace NexusStrap
             App.RichPresence?.ResetPresence();
         }
 
+        /// <summary>
+        /// The FPS overlay reads real frame data through ETW, which needs
+        /// administrator rights. When the overlay is on but we're not elevated,
+        /// offer a one-click relaunch as admin. Declining (or quiet mode) just
+        /// launches normally — CPU and RAM still show, FPS stays hidden.
+        /// </summary>
+        private static void PromptElevationForFpsOverlay(LaunchMode launchMode)
+        {
+            const string LOG_IDENT = "LaunchHandler::PromptElevationForFpsOverlay";
+
+            try
+            {
+                if (launchMode != LaunchMode.Player && launchMode != LaunchMode.Studio)
+                    return;
+
+                if (!App.Settings.Prop.ShowFpsOverlay)
+                    return;
+
+                if (Utilities.IsAdministrator())
+                    return;
+
+                if (App.LaunchSettings.QuietFlag.Active)
+                {
+                    App.Logger.WriteLine(LOG_IDENT, "Quiet launch, skipping elevation prompt (FPS number will be hidden)");
+                    return;
+                }
+
+                var result = Frontend.ShowMessageBox(
+                    "The FPS Overlay needs administrator rights to read the live FPS number.\n\nRelaunch NexusStrap as administrator now?\n(Choose No to launch normally — CPU and RAM will still show.)",
+                    MessageBoxImage.Question,
+                    MessageBoxButton.YesNo,
+                    MessageBoxResult.Yes);
+
+                if (result != MessageBoxResult.Yes)
+                    return;
+
+                string args = string.Join(' ', App.LaunchSettings.Args.Select(a =>
+                    a.Contains(' ') ? $"\"{a}\"" : a));
+
+                App.Logger.WriteLine(LOG_IDENT, "Relaunching elevated for FPS overlay");
+
+                if (Utilities.RelaunchElevated(args))
+                    App.Terminate();
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException(LOG_IDENT, ex);
+            }
+        }
+
         public static void LaunchRoblox(LaunchMode launchMode)
         {
             const string LOG_IDENT = "LaunchHandler::LaunchRoblox";
@@ -297,6 +347,9 @@ namespace NexusStrap
 
             // start bootstrapper and show the bootstrapper modal if we're not running silently
             App.Logger.WriteLine(LOG_IDENT, "Initializing bootstrapper");
+
+            PromptElevationForFpsOverlay(launchMode);
+
             App.Bootstrapper = new Bootstrapper(launchMode);
             IBootstrapperDialog? dialog = null;
 
