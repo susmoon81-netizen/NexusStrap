@@ -8,34 +8,18 @@ namespace NexusStrap.UI.Elements.Overlay
 {
     /// <summary>
     /// Borderless click-through overlay pinned to the top-right of the screen.
-    /// Shows the tracked Roblox process's real presented FPS (ETW, when
-    /// available) plus its CPU and RAM usage as percentages. No background —
-    /// green text only.
+    /// Shows the tracked Roblox process's CPU and RAM usage as percentages.
+    /// No background — green text only.
     /// </summary>
     public partial class PerformanceOverlay : Window
     {
         private readonly DispatcherTimer _updateTimer;
         private readonly Stopwatch _sampleStopwatch = Stopwatch.StartNew();
-        private readonly FpsMonitor _fpsMonitor = new();
         private readonly long _totalPhysicalBytes;
         private Process? _robloxProcess;
         private TimeSpan _lastProcessorTime;
         private TimeSpan _lastSampleElapsed;
         private bool _hasCpuSample;
-
-        private const int GWL_EXSTYLE = -20;
-        private const int WS_EX_TRANSPARENT = 0x00000020;
-        private const int WS_EX_NOACTIVATE = 0x08000000;
-        private const int WS_EX_TOOLWINDOW = 0x00000080;
-
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern int GetWindowLong(nint hWnd, int nIndex);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern int SetWindowLong(nint hWnd, int nIndex, int dwNewLong);
-
-        [DllImport("user32.dll")]
-        private static extern nint GetForegroundWindow();
 
         public PerformanceOverlay(int processId)
         {
@@ -57,8 +41,6 @@ namespace NexusStrap.UI.Elements.Overlay
             {
                 _robloxProcess = null;
             }
-
-            _fpsMonitor.TryStart(processId);
 
             _updateTimer = new DispatcherTimer
             {
@@ -90,9 +72,6 @@ namespace NexusStrap.UI.Elements.Overlay
         {
             try
             {
-                // Always drain the FPS queue so it cannot grow while hidden.
-                int fps = _fpsMonitor.CurrentFps;
-
                 if (_robloxProcess is null || _robloxProcess.HasExited)
                 {
                     Visibility = Visibility.Hidden;
@@ -112,18 +91,6 @@ namespace NexusStrap.UI.Elements.Overlay
 
                 if (Visibility != Visibility.Visible)
                     Visibility = Visibility.Visible;
-
-                // No admin means no real frame data: hide the line instead of
-                // showing a dead placeholder. CPU and RAM always work.
-                if (_fpsMonitor.IsAvailable)
-                {
-                    FpsText.Visibility = Visibility.Visible;
-                    FpsText.Text = $"FPS {fps}";
-                }
-                else
-                {
-                    FpsText.Visibility = Visibility.Collapsed;
-                }
 
                 // CPU: process share across all cores, as a percentage.
                 var elapsed = _sampleStopwatch.Elapsed;
@@ -161,7 +128,6 @@ namespace NexusStrap.UI.Elements.Overlay
             }
             catch
             {
-                FpsText.Text = "FPS --";
                 CpuText.Text = "CPU --";
                 RamText.Text = "RAM --";
             }
@@ -170,7 +136,6 @@ namespace NexusStrap.UI.Elements.Overlay
         protected override void OnClosed(EventArgs e)
         {
             _updateTimer.Stop();
-            _fpsMonitor.Dispose();
             _robloxProcess?.Dispose();
             base.OnClosed(e);
         }
@@ -181,5 +146,19 @@ namespace NexusStrap.UI.Elements.Overlay
             _lastProcessorTime = TimeSpan.Zero;
             _lastSampleElapsed = _sampleStopwatch.Elapsed;
         }
+
+        private const int GWL_EXSTYLE = -20;
+        private const int WS_EX_TRANSPARENT = 0x00000020;
+        private const int WS_EX_NOACTIVATE = 0x08000000;
+        private const int WS_EX_TOOLWINDOW = 0x00000080;
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern int GetWindowLong(nint hWnd, int nIndex);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern int SetWindowLong(nint hWnd, int nIndex, int dwNewLong);
+
+        [DllImport("user32.dll")]
+        private static extern nint GetForegroundWindow();
     }
 }

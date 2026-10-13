@@ -164,7 +164,7 @@ namespace NexusStrap
 
             try
             {
-                if (!App.Settings.Prop.ShowFpsOverlay)
+                if (!App.Settings.Prop.ShowStatsOverlay)
                     return;
 
                 if (_watcherData?.LaunchMode != LaunchMode.Player && _watcherData?.LaunchMode != LaunchMode.Studio)
@@ -179,7 +179,7 @@ namespace NexusStrap
                         CloseLogViewOverlay();
                         _fpsOverlay = new PerformanceOverlay(pid);
                         _fpsOverlay.Show();
-                        App.Logger.WriteLine(LOG_IDENT, $"FPS overlay shown for PID {pid}");
+                        App.Logger.WriteLine(LOG_IDENT, $"Stats overlay shown for PID {pid}");
                     }
                     catch (Exception ex)
                     {

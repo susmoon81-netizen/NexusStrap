@@ -94,10 +94,10 @@ namespace NexusStrap.UI.ViewModels.Settings
 
         public bool LogViewEnabled
         {
-            get => App.Settings.Prop.ShowFpsOverlay;
+            get => App.Settings.Prop.ShowStatsOverlay;
             set
             {
-                App.Settings.Prop.ShowFpsOverlay = value;
+                App.Settings.Prop.ShowStatsOverlay = value;
                 OnPropertyChanged(nameof(LogViewEnabled));
             }
         }

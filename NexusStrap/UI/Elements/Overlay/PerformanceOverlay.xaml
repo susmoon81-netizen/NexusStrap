@@ -1,9 +1,9 @@
 <Window x:Class="NexusStrap.UI.Elements.Overlay.PerformanceOverlay"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="NexusStrap FPS"
+    Title="NexusStrap Stats"
     Width="190"
-    Height="100"
+    Height="76"
     WindowStyle="None"
     AllowsTransparency="True"
     Background="Transparent"
@@ -29,8 +29,7 @@
             </Style>
         </StackPanel.Resources>
 
-        <TextBlock x:Name="FpsText" Text="FPS --" />
-        <TextBlock x:Name="CpuText" Text="CPU --" Margin="0,2,0,0" />
+        <TextBlock x:Name="CpuText" Text="CPU --" />
         <TextBlock x:Name="RamText" Text="RAM --" Margin="0,2,0,0" />
     </StackPanel>
 </Window>

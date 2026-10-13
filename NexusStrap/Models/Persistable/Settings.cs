@@ -94,8 +94,8 @@ namespace NexusStrap.Models.Persistable
         public bool EnablePerformanceOverlay { get; set; } = false;
         public int OverlayOpacity { get; set; } = 80;
 
-        // FPS overlay: green FPS / CPU% / RAM% text on the top-right of the game
-        public bool ShowFpsOverlay { get; set; } = true;
+        // Stats overlay: green CPU% / RAM% text on the top-right of the game
+        public bool ShowStatsOverlay { get; set; } = true;
 
         // Misc Stuff
         public bool IsNavigationSidebarExpanded { get; set; } = true;

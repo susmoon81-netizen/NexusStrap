@@ -57,8 +57,8 @@
         </controls:OptionControl>
 
         <controls:OptionControl x:Name="LogViewToggle"
-            Header="FPS Overlay"
-            Description="Shows a green FPS, CPU and RAM overlay on the top-right of the game. The FPS number appears when running as administrator.">
+            Header="Stats Overlay"
+            Description="Shows a green CPU and RAM overlay on the top-right of the game.">
             <ui:ToggleSwitch IsChecked="{Binding LogViewEnabled, Mode=TwoWay}" />
         </controls:OptionControl>
 
